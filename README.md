@@ -140,11 +140,5 @@ func main() {
 
 ```
 
-
-## FAQ
-### How can I use my own csv file for country's data
-You can pass in an optional url to `country_mapper.Load("http"//example.com/file.csv")`. This is useful if you prefer to host the data file yourself or if you have modified some of the fields for your specific use case. Do keep in mind that the schema and order of columns should still be kept the same.
-
-
 ## Credits
 - Thanks to @mledoze for country's data ([https://github.com/mledoze/countries](https://github.com/mledoze/countries))
