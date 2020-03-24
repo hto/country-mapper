@@ -1,9 +1,8 @@
 # Country Info Mapper in Go
-[![Build Status](https://travis-ci.org/pirsquare/country-mapper.svg?branch=master)](https://travis-ci.org/pirsquare/country-mapper)
 
 ## Installation
 
-    go get github.com/pirsquare/country-mapper
+    go get github.com/hto/country-mapper
 
 
 ## Examples
@@ -12,13 +11,17 @@ package main
 
 import (
 	"fmt"
-	"github.com/pirsquare/country-mapper"
+	"github.com/hto/country-mapper"
+)
+
+const (
+	defaultFile = "files/country_info.csv" // !!!!! you should pull the file into your own directory
 )
 
 var countryClient *country_mapper.CountryInfoClient
 
 func init() {
-	client, err := country_mapper.Load()
+	client, err := country_mapper.Load(defaultFile)
 	if err != nil {
 		panic(err)
 	}

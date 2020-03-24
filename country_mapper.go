@@ -2,12 +2,9 @@ package country_mapper
 
 import (
 	"encoding/csv"
-	"net/http"
+	"log"
+	"os"
 	"strings"
-)
-
-const (
-	defaultFile = "https://raw.githubusercontent.com/pirsquare/country-mapper/master/files/country_info.csv"
 )
 
 type CountryInfoClient struct {
@@ -123,39 +120,18 @@ func (c *CountryInfo) CallingCodeLower() []string {
 	return updated
 }
 
-func readCSVFromURL(fileURL string) ([][]string, error) {
-	resp, err := http.Get(fileURL)
+func Load(loadFile string) (*CountryInfoClient, error) {
+
+	csvfile, err := os.Open(loadFile)
 	if err != nil {
-		return nil, err
+		log.Fatalln("Couldn't open the csv file", err)
 	}
 
-	defer resp.Body.Close()
-	reader := csv.NewReader(resp.Body)
+	reader := csv.NewReader(csvfile)
 	reader.Comma = ';'
 	data, err := reader.ReadAll()
 	if err != nil {
-		return nil, err
-	}
-
-	return data, nil
-}
-
-// Pass in an optional url if you would like to use your own downloadable csv file for country's data.
-// This is useful if you prefer to host the data file yourself or if you have modified some of the fields
-// for your specific use case.
-func Load(specifiedURL ...string) (*CountryInfoClient, error) {
-	var fileURL string
-
-	// use user specified url for csv file if provided, else use default file URL
-	if len(specifiedURL) > 0 {
-		fileURL = specifiedURL[0]
-	} else {
-		fileURL = defaultFile
-	}
-
-	data, err := readCSVFromURL(fileURL)
-	if err != nil {
-		return nil, err
+		log.Fatalln("Couldn't open the csv file : err 2", err)
 	}
 
 	recordList := []*CountryInfo{}
